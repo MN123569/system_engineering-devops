@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Lists PID and executable path for bash processes without using ps
+for pid in /proc/[0-9]*; do
+  pid_num=$(basename "$pid")
+  if exe_path=$(readlink -f "$pid/exe" 2>/dev/null); then
+    if [[ $exe_path == *bash* ]]; then
+      echo "$pid_num $exe_path"
+    fi
+  fi
+done
